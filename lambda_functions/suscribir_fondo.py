@@ -1,5 +1,6 @@
 from app.controllers.FondosController import FondosController
 from utils.exceptions import SaldoInsuficienteError, FondoNoEncontradoError, UsuarioNoEncontradoError
+from utils.response import generar_respuesta
 import json
 
 def suscribir_fondo(event, context):
@@ -24,10 +25,7 @@ def suscribir_fondo(event, context):
         # Validar que los campos requeridos estén presentes en el cuerpo
         required_fields = ['idFondo', 'idUsuario', 'montoApertura']
         if not all(field in body for field in required_fields):
-            return {
-                'statusCode': 400,  
-                'body': json.dumps({'error': 'Faltan campos: idFondo, idUsuario, montoApertura'})
-            }
+            return generar_respuesta(400, {'error': 'Faltan campos: idFondo, idUsuario, montoApertura'})
         
         # Crear una instancia del controlador de fondos
         controller = FondosController()
@@ -39,29 +37,17 @@ def suscribir_fondo(event, context):
             monto_apertura=body['montoApertura']
         )
         
-        # Retornar una respuesta exitosa con el resultado de la suscripción
-        return {
-            'statusCode': 200, 
-            'body': json.dumps(response)
-        }
+        # Retornar una respuesta exitosa
+        return generar_respuesta(200, response)
     except SaldoInsuficienteError as e:
         # Manejar el caso en que el usuario no tenga saldo suficiente
         print(e) 
-        return {
-            'statusCode': 400,  
-            'body': json.dumps({'error': str(e)})
-        }
+        return generar_respuesta(400, {'error': str(e)})
     except (FondoNoEncontradoError, UsuarioNoEncontradoError) as e:
         # Manejar el caso en que el fondo o el usuario no existan
         print(e) 
-        return {
-            'statusCode': 404,  
-            'body': json.dumps({'error': str(e)})
-        }
+        return generar_respuesta(404, {'error': str(e)})
     except Exception as e:
         # Manejar cualquier otro error inesperado
         print(e) 
-        return {
-            'statusCode': 500,  
-            'body': json.dumps({'error': 'Error interno'})
-        }
+        return generar_respuesta(500, {'error': 'Error interno'})

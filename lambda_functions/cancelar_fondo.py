@@ -1,5 +1,6 @@
 from app.controllers.FondosController import FondosController
 from utils.exceptions import SuscripcionNoEncontradaError
+from utils.response import generar_respuesta
 import json
 
 def cancelarFondo(event, context):
@@ -23,10 +24,7 @@ def cancelarFondo(event, context):
         # Verificar que el cuerpo contenga los campos requeridos
         required_fields = ['idFondo', 'idUsuario']
         if not all(field in body for field in required_fields):
-            return {
-                'statusCode': 400,  # Código HTTP 400: Solicitud incorrecta
-                'body': json.dumps({'error': 'Faltan campos: idFondo, idUsuario'})
-            }
+           return generar_respuesta(400, {'error': 'Faltan campos: idFondo, idUsuario'})
         
         # Crear una instancia del controlador de fondos
         controller = FondosController()
@@ -38,20 +36,11 @@ def cancelarFondo(event, context):
         )
         
         # Retornar una respuesta exitosa con el resultado
-        return {
-            'statusCode': 200, 
-            'body': json.dumps(response, default=str)
-        }
+        return generar_respuesta(200, response)
     except SuscripcionNoEncontradaError:
         # Manejar el caso en que no exista una suscripción activa para el fondo
-        return {
-            'statusCode': 404, 
-            'body': json.dumps({'error': 'No existe una suscripción activa para este fondo'})
-        }
+          return generar_respuesta(404, {'error': 'No existe una suscripción activa para este fondo'})
     except Exception as e:
         # Manejar cualquier otro error inesperado
         print(e) 
-        return {
-            'statusCode': 500, 
-            'body': json.dumps({'error': 'Error interno'})
-        }
+        return generar_respuesta(500, {'error': 'Error interno'})

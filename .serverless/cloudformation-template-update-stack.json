@@ -123,7 +123,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-e3de6426-35b6",
-          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746406656668-2025-05-05T00:57:36.668Z/prueba-tecnica-mvc.zip"
+          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746458008247-2025-05-05T15:13:28.247Z/prueba-tecnica-mvc.zip"
         },
         "Handler": "lambda_functions/cancelar_fondo.cancelarFondo",
         "Runtime": "python3.8",
@@ -146,7 +146,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-e3de6426-35b6",
-          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746406656668-2025-05-05T00:57:36.668Z/prueba-tecnica-mvc.zip"
+          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746458008247-2025-05-05T15:13:28.247Z/prueba-tecnica-mvc.zip"
         },
         "Handler": "lambda_functions/crear_usuario.crear_usuario",
         "Runtime": "python3.8",
@@ -169,7 +169,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-e3de6426-35b6",
-          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746406656668-2025-05-05T00:57:36.668Z/prueba-tecnica-mvc.zip"
+          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746458008247-2025-05-05T15:13:28.247Z/prueba-tecnica-mvc.zip"
         },
         "Handler": "lambda_functions/historial.obtener_historial",
         "Runtime": "python3.8",
@@ -192,7 +192,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-e3de6426-35b6",
-          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746406656668-2025-05-05T00:57:36.668Z/prueba-tecnica-mvc.zip"
+          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746458008247-2025-05-05T15:13:28.247Z/prueba-tecnica-mvc.zip"
         },
         "Handler": "lambda_functions/suscribir_fondo.suscribir_fondo",
         "Runtime": "python3.8",
@@ -215,7 +215,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-e3de6426-35b6",
-          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746406656668-2025-05-05T00:57:36.668Z/prueba-tecnica-mvc.zip"
+          "S3Key": "serverless/prueba-tecnica-mvc/dev/1746458008247-2025-05-05T15:13:28.247Z/prueba-tecnica-mvc.zip"
         },
         "Handler": "lambda_functions/listar_usuarios.listar_usuarios",
         "Runtime": "python3.8",
@@ -233,54 +233,54 @@
         "ListarUsuariosLogGroup"
       ]
     },
-    "CancelarFondoLambdaVersionMuf50iVaW8TsGUjK5Yq7bD11DkW4tHtWFJSFmrCxs": {
+    "CancelarFondoLambdaVersionZUCfbiANnYV8hKewk1gCC0lq2v0rAktW7ypoxKSXoU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CancelarFondoLambdaFunction"
         },
-        "CodeSha256": "eEcKrKEWnUNdRN5dkqs3tk9v6osuqVqwv4Gu8CJJ1QU="
+        "CodeSha256": "uV7yWv0eKqUCcMYUv2H+Js/WhDZGXXcVWKcKOLZXJoc="
       }
     },
-    "CrearUsuarioLambdaVersion808bmf4IPNzzNaJVGcY9bGnFAzuQRLgvuIkXZkfuunU": {
+    "CrearUsuarioLambdaVersionZlA5ayJlw6eH5M25K3gxTlqhm0SjKTkj5IuLlWDxYg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CrearUsuarioLambdaFunction"
         },
-        "CodeSha256": "eEcKrKEWnUNdRN5dkqs3tk9v6osuqVqwv4Gu8CJJ1QU="
+        "CodeSha256": "uV7yWv0eKqUCcMYUv2H+Js/WhDZGXXcVWKcKOLZXJoc="
       }
     },
-    "ObtenerHistorialLambdaVersionMorqIGLgRQCQ9HQOln6LDu1GhlZhrswkefAiiWUrQ": {
+    "ObtenerHistorialLambdaVersionVaZwnPVpWyxNE3jRflMCo3ACro2F04IZtgJSjZrwI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ObtenerHistorialLambdaFunction"
         },
-        "CodeSha256": "eEcKrKEWnUNdRN5dkqs3tk9v6osuqVqwv4Gu8CJJ1QU="
+        "CodeSha256": "uV7yWv0eKqUCcMYUv2H+Js/WhDZGXXcVWKcKOLZXJoc="
       }
     },
-    "SuscribirFondoLambdaVersione2J7ZuO2ou8EbmB5M8S1i5Sl6MiqWBFdOyPkDtAS0Y": {
+    "SuscribirFondoLambdaVersionXnDITV4ydH8y2jV1kFUzPgQ0EQ3oBKaIja2tEOqxI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SuscribirFondoLambdaFunction"
         },
-        "CodeSha256": "eEcKrKEWnUNdRN5dkqs3tk9v6osuqVqwv4Gu8CJJ1QU="
+        "CodeSha256": "uV7yWv0eKqUCcMYUv2H+Js/WhDZGXXcVWKcKOLZXJoc="
       }
     },
-    "ListarUsuariosLambdaVersionaNefPzmLinCEapoii9pQm94YEbinJC3J0z9OE0xN8ps": {
+    "ListarUsuariosLambdaVersiondRYsWh0Q3LZGD24jzDONAjSdsJnPa2Kh03goQevPM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListarUsuariosLambdaFunction"
         },
-        "CodeSha256": "eEcKrKEWnUNdRN5dkqs3tk9v6osuqVqwv4Gu8CJJ1QU="
+        "CodeSha256": "uV7yWv0eKqUCcMYUv2H+Js/WhDZGXXcVWKcKOLZXJoc="
       }
     },
     "ApiGatewayRestApi": {
@@ -946,7 +946,7 @@
         "ListarUsuariosLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1746406647652": {
+    "ApiGatewayDeployment1746457999254": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1322,7 +1322,7 @@
     "CancelarFondoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CancelarFondoLambdaVersionMuf50iVaW8TsGUjK5Yq7bD11DkW4tHtWFJSFmrCxs"
+        "Ref": "CancelarFondoLambdaVersionZUCfbiANnYV8hKewk1gCC0lq2v0rAktW7ypoxKSXoU"
       },
       "Export": {
         "Name": "sls-prueba-tecnica-mvc-dev-CancelarFondoLambdaFunctionQualifiedArn"
@@ -1331,7 +1331,7 @@
     "CrearUsuarioLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CrearUsuarioLambdaVersion808bmf4IPNzzNaJVGcY9bGnFAzuQRLgvuIkXZkfuunU"
+        "Ref": "CrearUsuarioLambdaVersionZlA5ayJlw6eH5M25K3gxTlqhm0SjKTkj5IuLlWDxYg"
       },
       "Export": {
         "Name": "sls-prueba-tecnica-mvc-dev-CrearUsuarioLambdaFunctionQualifiedArn"
@@ -1340,7 +1340,7 @@
     "ObtenerHistorialLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ObtenerHistorialLambdaVersionMorqIGLgRQCQ9HQOln6LDu1GhlZhrswkefAiiWUrQ"
+        "Ref": "ObtenerHistorialLambdaVersionVaZwnPVpWyxNE3jRflMCo3ACro2F04IZtgJSjZrwI"
       },
       "Export": {
         "Name": "sls-prueba-tecnica-mvc-dev-ObtenerHistorialLambdaFunctionQualifiedArn"
@@ -1349,7 +1349,7 @@
     "SuscribirFondoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SuscribirFondoLambdaVersione2J7ZuO2ou8EbmB5M8S1i5Sl6MiqWBFdOyPkDtAS0Y"
+        "Ref": "SuscribirFondoLambdaVersionXnDITV4ydH8y2jV1kFUzPgQ0EQ3oBKaIja2tEOqxI"
       },
       "Export": {
         "Name": "sls-prueba-tecnica-mvc-dev-SuscribirFondoLambdaFunctionQualifiedArn"
@@ -1358,7 +1358,7 @@
     "ListarUsuariosLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListarUsuariosLambdaVersionaNefPzmLinCEapoii9pQm94YEbinJC3J0z9OE0xN8ps"
+        "Ref": "ListarUsuariosLambdaVersiondRYsWh0Q3LZGD24jzDONAjSdsJnPa2Kh03goQevPM"
       },
       "Export": {
         "Name": "sls-prueba-tecnica-mvc-dev-ListarUsuariosLambdaFunctionQualifiedArn"

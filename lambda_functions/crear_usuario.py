@@ -2,6 +2,7 @@ from app.controllers.UsuariosController import UsuariosController
 import json
 from utils.exceptions import CustomAppError
 import traceback
+from utils.response import generar_respuesta
 
 def crear_usuario(event, context):
     """
@@ -25,10 +26,7 @@ def crear_usuario(event, context):
         # Validar que los campos requeridos estén presentes en el cuerpo
         required_fields = ['nombre', 'correo', 'edad', 'identificacion', 'monto']
         if not all(field in body for field in required_fields):
-            return {
-                'statusCode': 400, 
-                'body': json.dumps({'error': 'Faltan campos: nombre, edad, monto'})
-            }
+            return generar_respuesta(400, {'error': 'Faltan campos: nombre, edad, monto'})
 
         # Crear una instancia del controlador de usuarios
         controller = UsuariosController()
@@ -43,25 +41,16 @@ def crear_usuario(event, context):
         )
         
         # Retornar una respuesta exitosa con el ID del usuario creado
-        return {
-            'statusCode': 201,
-            'body': json.dumps({
-                'idUsuario': id_usuario,
-                'message': 'Usuario creado'
-            })
-        }
+        return generar_respuesta(201, {
+            'idUsuario': id_usuario,
+            'message': 'Usuario creado'
+        })
     except CustomAppError as ce:
         # Manejar errores personalizados de la aplicación
         print("Error de negocio:", ce.message)
-        return {
-            'statusCode': ce.status_code, 
-            'body': json.dumps({'error': ce.message})
-        }
+        return generar_respuesta(ce.status_code, {'error': ce.message})
     except Exception as e:
         # Manejar cualquier otro error inesperado
         print(f"ERROR: {str(e)}") 
         traceback.print_exc()  
-        return {
-            'statusCode': 500, 
-            'body': json.dumps({'error': 'Error interno'})
-        }
+        return generar_respuesta(500, {'error': 'Error interno'})

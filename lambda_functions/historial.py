@@ -1,6 +1,6 @@
 from app.controllers.TransaccionesController import TransaccionesController
 from utils.exceptions import UsuarioNoEncontradoError
-import json
+from utils.response import generar_respuesta
 
 def obtener_historial(event, context):
     """
@@ -28,21 +28,11 @@ def obtener_historial(event, context):
         historial = controller.obtener_historial(id_usuario)
         
         # Retornar una respuesta exitosa con el historial de transacciones
-        return {
-            'statusCode': 200, 
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps(historial, default=str)  
-        }
+        return generar_respuesta(200, historial)
     except UsuarioNoEncontradoError:
         # Manejar el caso en que el usuario no exista
-        return {
-            'statusCode': 404, 
-            'body': json.dumps({'error': 'Usuario no encontrado'})
-        }
+        return generar_respuesta(404, {'error': 'Usuario no encontrado'})
     except Exception as e:
         # Manejar cualquier otro error inesperado
         print(e) 
-        return {
-            'statusCode': 500, 
-            'body': json.dumps({'error': 'Error al obtener historial'})
-        }
+        return generar_respuesta(500, {'error': 'Error al obtener historial'})
