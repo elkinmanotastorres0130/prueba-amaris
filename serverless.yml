@@ -1,0 +1,161 @@
+service: prueba-tecnica-mvc
+
+plugins:
+  - serverless-plugin-include-dependencies
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+  stage: dev
+  iamRoleStatements:
+    - Action:
+        - dynamodb:*
+        - sns:Publish
+      Effect: Allow
+      Resource: '*'
+  #timeout: 10  # Segundos (por defecto es 6)
+  #memorySize: 512  # MB (aumenta si la función es pesada)
+
+functions:
+  cancelarFondo:
+    handler: lambda_functions/cancelar_fondo.cancelarFondo
+    events:
+      - http:
+          method: post
+          path: /fondos/cancelar
+          cors: true
+
+  crearUsuario:
+    handler: lambda_functions/crear_usuario.crear_usuario
+    events:
+      - http:
+          method: post
+          path: /usuario/crear_usuario
+          cors: true
+
+  obtenerHistorial:
+    handler: lambda_functions/historial.obtener_historial
+    events:
+      - http:
+          path: /usuarios/{idUsuario}/historial
+          method: get
+          cors: true
+
+  suscribirFondo:
+    handler: lambda_functions/suscribir_fondo.suscribir_fondo
+    events:
+      - http:
+          method: post
+          path: /fondos/suscribir
+          cors: true
+
+  listarUsuarios:
+    handler: lambda_functions/listar_usuarios.listar_usuarios
+    events:
+      - http:
+          method: get
+          path: /usuarios
+          cors: true
+      - http:
+          method: get
+          path: /usuarios/{idUsuario}
+          cors: true
+
+resources:
+  Resources:
+    FondosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Fondos
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+    UsuariosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Usuarios
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: idUsuario
+            AttributeType: S
+        KeySchema:
+          - AttributeName: idUsuario
+            KeyType: HASH
+    
+    SuscripcionesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Suscripciones
+        AttributeDefinitions:
+          - AttributeName: idUsuario
+            AttributeType: S
+          - AttributeName: idFondo
+            AttributeType: S
+        KeySchema:
+          - AttributeName: idUsuario
+            KeyType: HASH
+          - AttributeName: idFondo
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+    
+    TransaccionesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Transacciones
+        AttributeDefinitions:
+          - AttributeName: idTransaccion
+            AttributeType: S  # String (UUID generado en el código)
+          - AttributeName: idUsuario
+            AttributeType: S  # String (ID del usuario)
+        KeySchema:
+          - AttributeName: idTransaccion
+            KeyType: HASH  # Clave primaria
+          - AttributeName: idUsuario
+            KeyType: RANGE  # Clave de ordenación (para búsquedas por usuario)
+        BillingMode: PAY_PER_REQUEST  # Escalado automático
+        GlobalSecondaryIndexes:
+          - IndexName: UsuarioIndex  # Índice secundario para buscar transacciones por usuario
+            KeySchema:
+              - AttributeName: idUsuario
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL  # Incluir todos los atributos en el índice
+
+    CancelacionesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Cancelaciones
+        AttributeDefinitions:
+          - AttributeName: idTransaccion
+            AttributeType: S
+          - AttributeName: idUsuario
+            AttributeType: S
+        KeySchema:
+          - AttributeName: idTransaccion
+            KeyType: HASH
+          - AttributeName: idUsuario
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+    # Permisos para SES/SNS (notificaciones)
+    NotificacionesPolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: NotificacionesAccess
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - ses:SendEmail
+                - sns:Publish
+              Resource: '*'
+        Roles:
+           - { "Ref": "IamRoleLambdaExecution" }
+
