@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual env
+.env
+.venv/
+env/
+venv/
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Node (si usas npm o serverless plugin)
+node_modules/
+
+# Serverless cache
+.serverless/
