@@ -4,19 +4,36 @@ from utils.exceptions import CustomAppError
 import traceback
 
 def crear_usuario(event, context):
+    """
+    Función Lambda para crear un nuevo usuario.
+
+    Parámetros:
+    - event: Diccionario que contiene los datos de la solicitud HTTP.
+             Se espera que tenga un campo 'body' con un JSON que incluya:
+             'nombre', 'correo', 'edad', 'identificacion' y 'monto'.
+    - context: Información del contexto de ejecución de AWS Lambda (no se utiliza en esta función).
+
+    Retorna:
+    - Un diccionario con los siguientes campos:
+        - statusCode: Código HTTP que indica el resultado de la operación (201, 400, 500).
+        - body: Respuesta en formato JSON con el resultado o el mensaje de error.
+    """
     try:
-         # Parsear el body (viene como string desde API Gateway)
+        # Parsear el cuerpo de la solicitud (event['body']) si es una cadena JSON
         body = json.loads(event['body']) if isinstance(event.get('body'), str) else event.get('body', {})
         
-        # Validar campos requeridos
-        required_fields = ['nombre','correo', 'edad','identificacion', 'monto']
+        # Validar que los campos requeridos estén presentes en el cuerpo
+        required_fields = ['nombre', 'correo', 'edad', 'identificacion', 'monto']
         if not all(field in body for field in required_fields):
             return {
-                'statusCode': 400,
+                'statusCode': 400, 
                 'body': json.dumps({'error': 'Faltan campos: nombre, edad, monto'})
             }
 
+        # Crear una instancia del controlador de usuarios
         controller = UsuariosController()
+        
+        # Llamar al método crear_usuario del controlador con los datos proporcionados
         id_usuario = controller.crear_usuario(
             nombre=body.get('nombre'),
             correo=body.get('correo'),
@@ -24,27 +41,27 @@ def crear_usuario(event, context):
             identificacion=body.get('identificacion'),
             monto=body.get('monto')
         )
+        
+        # Retornar una respuesta exitosa con el ID del usuario creado
         return {
             'statusCode': 201,
-           
             'body': json.dumps({
                 'idUsuario': id_usuario,
                 'message': 'Usuario creado'
             })
         }
     except CustomAppError as ce:
-        print("⚠️ Error de negocio:", ce.message)
+        # Manejar errores personalizados de la aplicación
+        print("Error de negocio:", ce.message)
         return {
-            'statusCode': ce.status_code,
+            'statusCode': ce.status_code, 
             'body': json.dumps({'error': ce.message})
         }
-
     except Exception as e:
-        print("❌ Error inesperado:")
-        print(f"ERROR: {str(e)}")  # Log en CloudWatch
-        traceback.print_exc()
+        # Manejar cualquier otro error inesperado
+        print(f"ERROR: {str(e)}") 
+        traceback.print_exc()  
         return {
-            'statusCode': 500,
-          
+            'statusCode': 500, 
             'body': json.dumps({'error': 'Error interno'})
         }

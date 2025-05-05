@@ -1,38 +1,48 @@
-from app.controllers.UsuariosController import UsuariosController
+from app.controllers.TransaccionesController import TransaccionesController
 from utils.exceptions import UsuarioNoEncontradoError
 import json
 
-def listar_usuarios(event, context):
+def obtener_historial(event, context):
+    """
+    Función Lambda para obtener el historial de transacciones de un usuario.
+
+    Parámetros:
+    - event: Diccionario que contiene los datos de la solicitud HTTP.
+             Se espera que tenga un campo 'pathParameters' con el 'idUsuario'.
+    - context: Información del contexto de ejecución de AWS Lambda (no se utiliza en esta función).
+
+    Retorna:
+    - Un diccionario con los siguientes campos:
+        - statusCode: Código HTTP que indica el resultado de la operación (200, 404, 500).
+        - headers: Encabezados HTTP, incluyendo el tipo de contenido.
+        - body: Respuesta en formato JSON con el historial o el mensaje de error.
+    """
     try:
-        controller = UsuariosController()
+        # Obtener el ID del usuario desde los parámetros de la ruta
+        id_usuario = event['pathParameters']['idUsuario']
         
-        # Caso 1: Filtrar por ID (si existe pathParameters)
-        if event.get('pathParameters') and 'idUsuario' in event['pathParameters']:
-            id_usuario = event['pathParameters']['idUsuario']
-            usuario = controller.obtener_usuario(id_usuario)
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps(usuario, default=str)
-            }
+        # Crear una instancia del controlador de transacciones
+        controller = TransaccionesController()
         
-        # Caso 2: Listar todos los usuarios
-        else:
-            usuarios = controller.listar_usuarios()
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps(usuarios, default=str)
-            }
-            
-    except UsuarioNoEncontradoError:
+        # Llamar al método obtener_historial del controlador con el ID del usuario
+        historial = controller.obtener_historial(id_usuario)
+        
+        # Retornar una respuesta exitosa con el historial de transacciones
         return {
-            'statusCode': 404,
+            'statusCode': 200,  
+            'headers': {'Content-Type': 'application/json'},  
+            'body': json.dumps(historial, default=str) 
+        }
+    except UsuarioNoEncontradoError:
+        # Manejar el caso en que el usuario no exista
+        return {
+            'statusCode': 404, 
             'body': json.dumps({'error': 'Usuario no encontrado'})
         }
     except Exception as e:
-        print(f"Error: {str(e)}")
+        # Manejar cualquier otro error inesperado
+        print(e) 
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': 'Error interno del servidor'})
+            'body': json.dumps({'error': 'Error al obtener historial'})
         }
