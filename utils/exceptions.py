@@ -1,5 +1,3 @@
-# app/utils/exceptions.py
-
 class CustomAppError(Exception):
     """Excepción base para errores personalizados en la app."""
     def __init__(self, message, status_code=400):

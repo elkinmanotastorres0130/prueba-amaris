@@ -18,7 +18,7 @@ class NotificacionService:
 
             # Conectar y enviar
             with smtplib.SMTP(os.getenv('SMTP_SERVER'), os.getenv('SMTP_PORT')) as servidor:
-                servidor.starttls()  # Encriptación TLS
+                servidor.starttls() 
                 servidor.login(os.getenv('SMTP_USER'), os.getenv('SMTP_PASSWORD'))
                 servidor.send_message(mensaje)
             

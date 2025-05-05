@@ -1,4 +1,3 @@
-# app/controllers/TransaccionesController.py
 from models.Transaccion import Transaccion
 from models.Usuario import Usuario
 from models.Fondo import Fondo

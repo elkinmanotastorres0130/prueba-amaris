@@ -103,7 +103,7 @@ class FondosController:
         # 5. Devolver saldo al usuario
         self.usuario_model.actualizar_saldo(
             id_usuario=id_usuario,
-            monto=suscripcion['monto']  # Sumar el monto
+            monto=suscripcion['monto']
         )
         
          # 6. Obtener datos para el correo
